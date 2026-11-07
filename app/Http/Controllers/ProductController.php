@@ -9,9 +9,9 @@ class ProductController extends Controller
 {
     # Lista como BD
     protected $list = [
-        ['id' => 1, 'name' => 'Pepsi', 'price' => 1.50 ],
-        ['id' => 2, 'name' => 'Franela', 'price' => 0.99 ],
-        ['id' => 3, 'name' => 'Fresas', 'price' => 0.50 ],
+        ['id' => 1, 'name' => 'Pepsi', 'price' => 1.50],
+        ['id' => 2, 'name' => 'Franela', 'price' => 0.99],
+        ['id' => 3, 'name' => 'Fresas', 'price' => 0.50],
     ];
 
     // Se ejecuta al momento de iniciar el servidor
@@ -92,7 +92,7 @@ class ProductController extends Controller
 
     // Insertar nuevo producto
     public function insert(Request $request)
-    {   
+    {
         // Obtener los valores del request
         $name = $request->input('name', '');
         $price = $request->input('price');
@@ -119,7 +119,7 @@ class ProductController extends Controller
 
         // Insertar nuevo producto
         array_push($this->list, $newProduct);
-        
+
         // Toma un snapshot de la `list` y la guarda en cache
         $this->saveList();
 
@@ -129,4 +129,28 @@ class ProductController extends Controller
         ]);
     }
 
+    public function update(Request $request, string $id)
+    {
+        foreach ($this->list as $index => $item) {
+
+            //echo ($id);
+
+            if (strval($item['id']) === $id) {
+
+                $this->list[$index]['name'] = $request->input('name');
+                $this->list[$index]['price'] = $request->input('price');
+
+                $this->saveList();
+                return response()->json([
+                    'message' => 'Producto actualizado',
+                    'item' => $this->list[$index]
+                ]);
+            }
+        }
+
+        return response()->json([
+            'message' => 'Producto no encontrado',
+            'item' => null
+        ], 404);
+    }
 }

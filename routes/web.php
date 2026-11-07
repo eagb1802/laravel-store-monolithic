@@ -15,9 +15,11 @@ Route::get('/', function () {
 Route::get('/products', [ProductController::class, 'getAll']);
 
 # https://store-api.com/products/search [GET]
-Route::get('/products/search', [ProductController::class, 'findByName']);
+Route::get('/product/search', [ProductController::class, 'findByName']);
 
 # https://store-api.com/products/<id> [GET]
-Route::get('/products/{id}', [ProductController::class, 'findById']);
+Route::get('/product/{id}', [ProductController::class, 'findById']);
 
-Route::post('/products/create', [ProductController::class, 'insert']);
+Route::post('/product/create', [ProductController::class, 'insert']);
+
+Route::put('/product/update/{id}', [ProductController::class, 'update']);
