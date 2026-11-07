@@ -153,4 +153,31 @@ class ProductController extends Controller
             'item' => null
         ], 404);
     }
+
+    public function delete(string $id)
+    {
+        foreach ($this->list as $index => $item) {
+
+            //echo ($id);
+
+            if (strval($item['id']) === $id) {
+
+                //$product_deleted = $this->list[$index];
+
+                array_slice($this->list, $index, 1);
+
+                $this->saveList();
+
+                return response()->json([
+                    'message' => 'Producto eliminado',
+                    'item' => null //$product_deleted
+                ]);
+            }
+        }
+
+        return response()->json([
+            'message' => 'Producto no encontrado',
+            'item' => null
+        ], 404);
+    }
 }
